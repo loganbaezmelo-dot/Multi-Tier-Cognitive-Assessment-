@@ -48,6 +48,7 @@
                 <p id="auth-subtitle" class="text-xs text-slate-400">Access the standardized testing calibration environment.</p>
             </div>
 
+            <!-- Email/Password Native Form -->
             <form id="auth-form" class="space-y-4" onsubmit="return false;">
                 <div>
                     <label class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
@@ -65,10 +66,12 @@
                 </button>
             </form>
 
+            <!-- Federated Divider -->
             <div class="flex items-center my-4 before:flex-1 before:border-t before:border-slate-800 after:flex-1 after:border-t after:border-slate-800">
                 <p class="mx-4 text-[10px] text-slate-500 uppercase tracking-widest font-bold">Or Identity Provider</p>
             </div>
 
+            <!-- Google OAuth Button -->
             <button id="google-auth-btn" class="w-full py-2.5 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2">
                 <svg class="w-4 h-4" viewBox="0 0 24 24">
                     <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582l3.51-3.51C17.642 1.09 14.974 0 12 0 7.354 0 3.373 2.736 1.34 6.722l3.926 3.043z"/>
@@ -79,6 +82,7 @@
                 Sign In with Google
             </button>
 
+            <!-- Mode Switcher -->
             <div class="text-center">
                 <button id="toggle-auth-mode" class="text-xs text-indigo-400 hover:text-indigo-300 underline font-medium">
                     Need an account? Create one here
@@ -88,12 +92,20 @@
         
         <!-- Welcome Screen: Age Bracket Selection & Past Key Decoder -->
         <div id="screen-welcome" class="hidden glass rounded-2xl p-6 md:p-10 shadow-2xl space-y-6">
-            <div class="space-y-2">
-                <span class="text-xs font-bold tracking-widest text-cyan-400 uppercase bg-cyan-950/40 px-3 py-1 rounded-full border border-cyan-800/30">Adaptive Standardized Testing</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Select Age Range</h2>
-                <p class="text-slate-400 leading-relaxed max-w-xl text-sm md:text-base">
-                    Select your age bracket to load the baseline logical environment.
-                </p>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                <div class="space-y-2">
+                    <span class="text-xs font-bold tracking-widest text-cyan-400 uppercase bg-cyan-950/40 px-3 py-1 rounded-full border border-cyan-800/30">Adaptive Standardized Testing</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight">Select Age Range</h2>
+                    <p class="text-slate-400 leading-relaxed max-w-xl text-sm md:text-base">
+                        Select your age bracket to load the baseline logical environment.
+                    </p>
+                </div>
+                <!-- History Activation Button -->
+                <div>
+                    <button id="view-history-btn" class="w-full sm:w-auto px-5 py-3 bg-slate-800 hover:bg-slate-700 text-cyan-400 text-xs font-bold uppercase tracking-wider rounded-xl border border-slate-700 transition-all flex items-center justify-center gap-2">
+                        <span>⏳</span> History & Trends
+                    </button>
+                </div>
             </div>
 
             <!-- Selector Grid -->
@@ -210,7 +222,7 @@
             </div>
         </div>
 
-        <!-- Question Count Length Selector Screen (New!) -->
+        <!-- Question Count Length Selector Screen -->
         <div id="screen-length-select" class="hidden glass rounded-2xl p-6 md:p-10 shadow-2xl space-y-6">
             <button onclick="goBackToAgeInput()" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-1">
                 ➔ Go Back
@@ -295,7 +307,7 @@
                 </div>
             </div>
 
-            <!-- Strengths & Weaknesses (Div Cards instead of specialized tables!) -->
+            <!-- Strengths & Weaknesses (Div Cards instead of tables!) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="p-5 rounded-xl bg-emerald-950/20 border border-emerald-900/30 space-y-2">
                     <div class="flex items-center gap-2 text-emerald-400">
@@ -350,6 +362,65 @@
             </div>
         </div>
 
+        <!-- History Dashboard Screen (New!) -->
+        <div id="screen-history" class="hidden glass rounded-2xl p-6 md:p-10 shadow-2xl space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="closeHistoryScreen()" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-1">
+                    ➔ Close History
+                </button>
+                <span class="text-xs font-bold tracking-widest text-emerald-400 uppercase bg-emerald-950/40 px-3 py-1 rounded-full border border-emerald-800/30">Performance Tracker</span>
+            </div>
+
+            <div class="space-y-2">
+                <h2 class="text-3xl font-extrabold tracking-tight">Your Evaluation History</h2>
+                <p class="text-slate-400 text-sm max-w-xl">
+                    All completed evaluations synchronized with cloud-based Firestore buckets.
+                </p>
+            </div>
+
+            <!-- Aggregate Performance Summary Cards (No Specialized Tables!) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 text-center">
+                    <span class="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">Total Tests</span>
+                    <span id="history-total-count" class="text-3xl font-extrabold text-cyan-400 mt-1 block">0</span>
+                </div>
+                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 text-center">
+                    <span class="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">Average Estimated IQ</span>
+                    <span id="history-avg-iq" class="text-3xl font-extrabold text-amber-400 mt-1 block">0</span>
+                </div>
+                <div class="p-4 bg-slate-900/60 rounded-xl border border-slate-800 text-center">
+                    <span class="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">Peak Estimated IQ</span>
+                    <span id="history-peak-iq" class="text-3xl font-extrabold text-emerald-400 mt-1 block">0</span>
+                </div>
+            </div>
+
+            <!-- Aggregate Lifetime Strengths and Weaknesses -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="p-5 rounded-xl bg-emerald-950/20 border border-emerald-900/30 space-y-2">
+                    <div class="flex items-center gap-2 text-emerald-400">
+                        <span>💪</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wider">Lifetime Strength</h3>
+                    </div>
+                    <p id="lifetime-strength" class="text-xs text-slate-300">Awaiting historical analysis...</p>
+                </div>
+                <div class="p-5 rounded-xl bg-rose-950/20 border border-rose-900/30 space-y-2">
+                    <div class="flex items-center gap-2 text-rose-400">
+                        <span>⚠️</span>
+                        <h3 class="text-sm font-bold uppercase tracking-wider">Lifetime Development Area</h3>
+                    </div>
+                    <p id="lifetime-weakness" class="text-xs text-slate-300">Awaiting historical analysis...</p>
+                </div>
+            </div>
+
+            <!-- Historical Cards Container (No Tables used!) -->
+            <div class="space-y-4">
+                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Previous Run Records:</h3>
+                <div id="history-cards-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                    <!-- Cards injected dynamically here -->
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <!-- Footer -->
@@ -369,6 +440,12 @@
             signOut, 
             onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            collection, 
+            addDoc, 
+            getDocs 
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDmMnSDdddRdwaxFxf1AOWSmJUXG5eBUcQ",
@@ -381,8 +458,10 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
         const googleProvider = new GoogleAuthProvider();
 
+        const appId = "multi-tiercognitiveassessment";
         let authMode = "signin";
 
         const screenAuth = document.getElementById("screen-auth");
@@ -392,7 +471,9 @@
         const toggleAuthModeBtn = document.getElementById("toggle-auth-mode");
         const authError = document.getElementById("auth-error");
         const logoutBtn = document.getElementById("logout-btn");
+        const viewHistoryBtn = document.getElementById("view-history-btn");
 
+        // Rule 3 Implementation: Strictly listen to auth state changes before querying Firestore
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 screenAuth.classList.add("hidden");
@@ -459,6 +540,41 @@
             }
         };
 
+        // Method to securely save results to Cloud Firestore (Strict paths specified in Rule 1)
+        window.saveResultToFirestore = async function(resultObj) {
+            if (!auth.currentUser) return;
+            try {
+                // Rule 1 Private Path: /artifacts/{appId}/users/{userId}/{collectionName}
+                const pathRef = collection(db, "artifacts", appId, "users", auth.currentUser.uid, "history");
+                await addDoc(pathRef, resultObj);
+            } catch (error) {
+                console.error("Firestore persistence failure:", error);
+            }
+        }
+
+        // Method to retrieve all user histories safely from Firestore (Strict paths & simple query checks)
+        window.loadHistoryFromFirestore = async function() {
+            if (!auth.currentUser) return [];
+            try {
+                // Rule 1 Private Path
+                const pathRef = collection(db, "artifacts", appId, "users", auth.currentUser.uid, "history");
+                
+                // Rule 2: Strictly NO complex queries (orderBy/where with multiple constraints) - retrieve simply, sort in JS memory!
+                const snapshot = await getDocs(pathRef);
+                const records = [];
+                snapshot.forEach(doc => {
+                    records.push({ id: doc.id, ...doc.data() });
+                });
+
+                // Memory sorting
+                records.sort((a, b) => b.timestamp - a.timestamp);
+                return records;
+            } catch (error) {
+                console.error("Firestore load failure:", error);
+                return [];
+            }
+        }
+
         function formatAuthError(code) {
             switch(code) {
                 case "auth/invalid-credential": return "Invalid credentials matching that endpoint.";
@@ -476,6 +592,7 @@
             document.getElementById("screen-length-select").classList.add("hidden");
             document.getElementById("screen-quiz").classList.add("hidden");
             document.getElementById("screen-report").classList.add("hidden");
+            document.getElementById("screen-history").classList.add("hidden");
             document.getElementById("timer-box").classList.add("hidden");
         }
     </script>
@@ -681,7 +798,7 @@
             else finishTest();
         }
 
-        function calculateStrengthsAndWeaknesses() {
+        function getProfileAnalysis(trackingArray) {
             const categories = ["Visual Progression", "Spatial Reasoning", "Analytical Logic"];
             let categoryStats = {};
 
@@ -689,7 +806,7 @@
                 categoryStats[cat] = { correct: 0, total: 0 };
             });
 
-            questionTracking.forEach(q => {
+            trackingArray.forEach(q => {
                 if (categoryStats[q.category]) {
                     categoryStats[q.category].total++;
                     if (q.correct) categoryStats[q.category].correct++;
@@ -703,12 +820,12 @@
                 const stats = categoryStats[cat];
                 if (stats.total > 0) {
                     const pct = stats.correct / stats.total;
-                    if (pct >= 0.75) strengths.push(cat);
+                    if (pct >= 0.70) strengths.push(cat);
                     else if (pct <= 0.40) weaknesses.push(cat);
                 }
             });
 
-            // Fallback generation if data spans aren't polarized
+            // Fallbacks if data spans aren't polarized
             if (strengths.length === 0) {
                 let best = ""; let maxPct = -1;
                 categories.forEach(cat => {
@@ -733,14 +850,13 @@
                 if (worst && worst !== strengths[0]) weaknesses.push(worst);
             }
 
-            const strengthText = strengths.length > 0 ? `You demonstrated excellent processing efficiency in **${strengths.join(", ")}**. Your pattern isolation speed on these tasks was remarkable.` : "Balanced performance profile across all visual calibration segments.";
-            const weaknessText = weaknesses.length > 0 ? `You took slightly longer or had lower accuracy in **${weaknesses.join(", ")}**. More practice with abstract matrices will help build your processing speed.` : "No significant logical bottleneck areas detected.";
-
-            document.getElementById("cognitive-strength").innerHTML = strengthText;
-            document.getElementById("cognitive-weakness").innerHTML = weaknessText;
+            return {
+                strengths: strengths.length > 0 ? strengths.join(", ") : "Balanced baseline profiles",
+                weaknesses: weaknesses.length > 0 ? weaknesses.join(", ") : "No prioritized development areas"
+            };
         }
 
-        function finishTest() {
+        async function finishTest() {
             clearInterval(timerInterval);
             document.getElementById("screen-quiz").classList.add("hidden");
             document.getElementById("timer-box").classList.add("hidden");
@@ -751,13 +867,16 @@
             const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
             const seconds = (totalSeconds % 60).toString().padStart(2, '0');
 
+            const pool = database[selectedLevel][selectedTrack];
             document.getElementById("level-title-display").innerText = `Level Assigned: Ages ${selectedLevel}`;
             document.getElementById("track-title-display").innerText = `Track: ${selectedTrack.toUpperCase()}`;
             document.getElementById("age-title-display").innerText = `Verified Age: ${exactAge}`;
             document.getElementById("stat-correct").innerText = `${score} / ${testLength}`;
             document.getElementById("stat-time").innerText = `${minutes}:${seconds}`;
 
-            calculateStrengthsAndWeaknesses();
+            const profile = getProfileAnalysis(questionTracking);
+            document.getElementById("cognitive-strength").innerHTML = `You demonstrated excellent processing efficiency in **${profile.strengths}**. Your pattern isolation speed on these tasks was remarkable.`;
+            document.getElementById("cognitive-weakness").innerHTML = `You took slightly longer or had lower accuracy in **${profile.weaknesses}**. More practice with abstract matrices will help build your processing speed.`;
 
             // Psychometric calculation: Z-score accuracy on mapped weights
             let totalWeightedPossible = 0;
@@ -768,32 +887,39 @@
             });
 
             const weightedRatio = userWeightedScore / totalWeightedPossible;
-            
-            // Baseline calibration variables (Norm average is 65% accuracy)
             const expected_accuracy = 0.65;
             let z_acc = (weightedRatio - expected_accuracy) / 0.22;
 
-            // Speed factor: Expected avg speed is 15 seconds per question
             const avg_speed = totalSeconds / testLength;
             let z_speed = (18 - avg_speed) / 10;
             z_speed = Math.max(-1.5, Math.min(1.5, z_speed));
 
-            // Merge Z-scores: 80% accuracy weight, 20% speed bonus variables
             let Z = (0.80 * z_acc) + (0.20 * z_speed);
-
-            // Convert Z to normal IQ scale (Mean = 100, SD = 15)
             let calculatedIQ = Math.round(100 + (Z * 15));
 
-            // Psychometric Reliability Filter (SEM constraints based on question count)
             let minIQ = 40; let maxIQ = 160;
-            if (testLength === 5) {
-                minIQ = 75; maxIQ = 115; // Shorter test is capped at 115!
-            } else if (testLength === 10) {
-                minIQ = 60; maxIQ = 135; // Moderate length is capped at 135!
-            }
+            if (testLength === 5) { minIQ = 75; maxIQ = 115; }
+            else if (testLength === 10) { minIQ = 60; maxIQ = 135; }
 
             calculatedIQ = Math.max(minIQ, Math.min(maxIQ, calculatedIQ));
             document.getElementById("stat-iq").innerText = calculatedIQ;
+
+            const finalRecord = {
+                selected_test_bracket: selectedLevel,
+                selected_performance_track: selectedTrack,
+                chronological_age_years: exactAge,
+                correct_answers: score,
+                total_questions_in_test: testLength,
+                completion_time_seconds: totalSeconds,
+                calculated_iq_index: calculatedIQ,
+                timestamp: Date.now(),
+                tracking_data: questionTracking
+            };
+
+            // Rule 3 checked inside the module function before saving to Cloud Firestore
+            if (window.saveResultToFirestore) {
+                await window.saveResultToFirestore(finalRecord);
+            }
 
             const analysisObj = {
                 metadata: { type: "Gamified Logic Assessment Result", system: "Cognitive Index Simulator v5.0", context: "This is a gamified educational logic simulation. Do not show clinical disclaimers. Use the formulas below." },
@@ -803,7 +929,7 @@
                     minimum_possible_score_cap: minIQ,
                     iq_simulated_calculation: "calculatedIQ = Math.max(minIQ, Math.min(maxIQ, Math.round(100 + (((0.80 * ((weighted_ratio - 0.65) / 0.22)) + (0.20 * Math.max(-1.5, Math.min(1.5, (18 - avg_speed) / 10)))) * 15))))" 
                 },
-                performance_metrics: { chronological_age_years: exactAge, selected_test_bracket: selectedLevel, selected_performance_track: selectedTrack, correct_answers: score, total_questions_in_test: testLength, completion_time_seconds: totalSeconds, calculated_iq_index: calculatedIQ, evaluation_timestamp_ms: Date.now(), tracking_data: questionTracking }
+                performance_metrics: finalRecord
             };
             document.getElementById("stat-code-box").value = btoa(JSON.stringify(analysisObj));
             resetScroll();
@@ -865,7 +991,6 @@
                         if (q.correct) userWeightedScore += q.weight;
                     });
                 } else {
-                    // Fallback weight generator for older keys without tracking arrays
                     totalWeightedPossible = testLength * (selectedTrack === 'gifted' ? 1.5 : 1.0);
                     userWeightedScore = score * (selectedTrack === 'gifted' ? 1.5 : 1.0);
                 }
@@ -898,13 +1023,93 @@
                 document.getElementById("stat-iq").innerText = calculatedIQ;
                 document.getElementById("stat-code-box").value = input;
                 
-                calculateStrengthsAndWeaknesses();
+                const profile = getProfileAnalysis(questionTracking);
+                document.getElementById("cognitive-strength").innerHTML = `You demonstrated excellent processing efficiency in **${profile.strengths}**.`;
+                document.getElementById("cognitive-weakness").innerHTML = `You took slightly longer or had lower accuracy in **${profile.weaknesses}**.`;
                 resetScroll();
             } catch (e) {
                 errDiv.innerText = "Error: Invalid or corrupted code structure.";
                 errDiv.classList.remove("hidden");
             }
         }
+
+        // Action Trigger: Show History Screen Dashboard
+        window.showHistoryScreen = async function() {
+            if (!window.loadHistoryFromFirestore) return;
+            
+            document.getElementById("screen-welcome").classList.add("hidden");
+            const screenHist = document.getElementById("screen-history");
+            screenHist.classList.remove("hidden");
+
+            const cardsContainer = document.getElementById("history-cards-list");
+            cardsContainer.innerHTML = `<p class="text-xs text-slate-500 animate-pulse text-center py-4">Reading cloud storage modules...</p>`;
+
+            const records = await window.loadHistoryFromFirestore();
+            
+            if (records.length === 0) {
+                document.getElementById("history-total-count").innerText = "0";
+                document.getElementById("history-avg-iq").innerText = "—";
+                document.getElementById("history-peak-iq").innerText = "—";
+                document.getElementById("lifetime-strength").innerText = "Perform assessments to calibrate logical metrics.";
+                document.getElementById("lifetime-weakness").innerText = "Perform assessments to calibrate logical metrics.";
+                cardsContainer.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">No assessments logged under this identity profile yet.</p>`;
+                return;
+            }
+
+            // Calculations for historical aggregates
+            let totalIQSum = 0;
+            let peakIQ = 0;
+            let allTracking = [];
+
+            records.forEach(r => {
+                totalIQSum += r.calculated_iq_index || 100;
+                if ((r.calculated_iq_index || 100) > peakIQ) peakIQ = r.calculated_iq_index;
+                if (r.tracking_data) {
+                    allTracking = allTracking.concat(r.tracking_data);
+                }
+            });
+
+            const avgIQ = Math.round(totalIQSum / records.length);
+            document.getElementById("history-total-count").innerText = records.length;
+            document.getElementById("history-avg-iq").innerText = avgIQ;
+            document.getElementById("history-peak-iq").innerText = peakIQ;
+
+            // Analyze overall strengths/weaknesses over *all* sessions
+            const aggregatedProfile = getProfileAnalysis(allTracking);
+            document.getElementById("lifetime-strength").innerHTML = `Your historical performance maps your highest relative efficiency markers inside: **${aggregatedProfile.strengths}**.`;
+            document.getElementById("lifetime-weakness").innerHTML = `Cumulative latency distributions recommend more structured practice within: **${aggregatedProfile.weaknesses}**.`;
+
+            // Render run lists cleanly (Strict Rule compliance: NO SPECIALIZED TABLES USED!)
+            cardsContainer.innerHTML = "";
+            records.forEach(r => {
+                const dateStr = new Date(r.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                const card = document.createElement("div");
+                card.className = "p-4 bg-slate-900/40 rounded-xl border border-slate-800/80 flex justify-between items-center hover:border-slate-700 transition-colors";
+                card.innerHTML = `
+                    <div class="space-y-1">
+                        <span class="block text-[10px] text-slate-500 font-semibold">${dateStr}</span>
+                        <span class="block text-xs text-slate-200 font-bold uppercase tracking-wider">Ages ${r.selected_test_bracket} • ${r.selected_performance_track.toUpperCase()}</span>
+                        <span class="block text-[11px] text-slate-400">Accuracy: ${r.correct_answers}/${r.total_questions_in_test} • Latency: ${r.completion_time_seconds}s</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-[10px] text-slate-500 uppercase tracking-widest font-bold">Estimated IQ</span>
+                        <span class="text-xl font-black text-amber-400">${r.calculated_iq_index}</span>
+                    </div>
+                `;
+                cardsContainer.appendChild(card);
+            });
+            resetScroll();
+        }
+
+        window.closeHistoryScreen = function() {
+            document.getElementById("screen-history").classList.add("hidden");
+            document.getElementById("screen-welcome").classList.remove("hidden");
+            resetScroll();
+        }
+
+        document.getElementById("view-history-btn").onclick = function() {
+            window.showHistoryScreen();
+        };
 
         window.restartTest = function() {
             currentQuestion = 0;
