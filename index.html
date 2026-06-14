@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-Tier Cognitive Assessment</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
@@ -20,6 +21,7 @@
 </head>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between p-4 md:p-8">
 
+    <!-- Header -->
     <header class="max-w-4xl w-full mx-auto flex justify-between items-center py-4 border-b border-slate-800">
         <div class="flex items-center gap-3">
             <span class="text-2xl">⚡</span>
@@ -35,8 +37,10 @@
         </div>
     </header>
 
+    <!-- Main Workspace -->
     <main class="max-w-4xl w-full mx-auto my-auto flex flex-col justify-center py-8">
         
+        <!-- Firebase Auth Gate Screen -->
         <div id="screen-auth" class="glass rounded-2xl p-6 md:p-10 shadow-2xl max-w-md w-full mx-auto space-y-6">
             <div class="text-center space-y-2">
                 <span class="text-4xl">🔐</span>
@@ -44,6 +48,7 @@
                 <p id="auth-subtitle" class="text-xs text-slate-400">Access the standardized testing calibration environment.</p>
             </div>
 
+            <!-- Email/Password Native Form -->
             <form id="auth-form" class="space-y-4" onsubmit="return false;">
                 <div>
                     <label class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Email Address</label>
@@ -61,10 +66,12 @@
                 </button>
             </form>
 
+            <!-- Federated Divider -->
             <div class="flex items-center my-4 before:flex-1 before:border-t before:border-slate-800 after:flex-1 after:border-t after:border-slate-800">
                 <p class="mx-4 text-[10px] text-slate-500 uppercase tracking-widest font-bold">Or Identity Provider</p>
             </div>
 
+            <!-- Google OAuth Button -->
             <button id="google-auth-btn" class="w-full py-2.5 bg-slate-950 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 text-xs font-semibold rounded-xl transition-colors flex items-center justify-center gap-2">
                 <svg class="w-4 h-4" viewBox="0 0 24 24">
                     <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582l3.51-3.51C17.642 1.09 14.974 0 12 0 7.354 0 3.373 2.736 1.34 6.722l3.926 3.043z"/>
@@ -75,6 +82,7 @@
                 Sign In with Google
             </button>
 
+            <!-- Mode Switcher -->
             <div class="text-center">
                 <button id="toggle-auth-mode" class="text-xs text-indigo-400 hover:text-indigo-300 underline font-medium">
                     Need an account? Create one here
@@ -82,6 +90,7 @@
             </div>
         </div>
         
+        <!-- Welcome Screen: Age Bracket Selection & Past Key Decoder -->
         <div id="screen-welcome" class="hidden glass rounded-2xl p-6 md:p-10 shadow-2xl space-y-6">
             <div class="space-y-2">
                 <span class="text-xs font-bold tracking-widest text-cyan-400 uppercase bg-cyan-950/40 px-3 py-1 rounded-full border border-cyan-800/30">Adaptive Standardized Testing</span>
@@ -91,6 +100,7 @@
                 </p>
             </div>
 
+            <!-- Selector Grid -->
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
                 <button onclick="chooseAge('5-8')" class="p-4 rounded-xl border border-slate-800 hover:border-cyan-500/50 bg-slate-900/40 hover:bg-slate-900 text-left transition-all duration-200">
                     <span class="block text-xs text-cyan-400 font-bold">LEVEL 1</span>
@@ -119,6 +129,7 @@
                 </button>
             </div>
 
+            <!-- Past Key Loader Input -->
             <div class="border-t border-slate-800 pt-6 mt-6 space-y-3">
                 <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">🔑 Have a Performance Code?</h3>
                 <p class="text-xs text-slate-400">Paste your long verification code here to instantly reload your previous results.</p>
@@ -132,6 +143,7 @@
             </div>
         </div>
 
+        <!-- Track Selection Screen (Gifted vs. Non-Gifted) -->
         <div id="screen-track" class="hidden glass rounded-2xl p-6 md:p-10 shadow-2xl space-y-6">
             <button onclick="goBackToAge()" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-1">
                 ➔ Go Back
@@ -170,6 +182,7 @@
             </div>
         </div>
 
+        <!-- Age Verification Screen -->
         <div id="screen-age-input" class="hidden glass rounded-2xl p-6 md:p-10 shadow-2xl space-y-6">
             <button onclick="goBackToTrack()" class="text-xs text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-1">
                 ➔ Go Back
@@ -201,6 +214,7 @@
             </div>
         </div>
 
+        <!-- Quiz Screen -->
         <div id="screen-quiz" class="hidden space-y-6">
             <div class="w-full bg-slate-800/50 h-2 rounded-full overflow-hidden border border-slate-800">
                 <div id="progress-bar" class="bg-gradient-to-r from-indigo-500 to-cyan-400 h-full transition-all duration-300" style="width: 0%"></div>
@@ -226,6 +240,7 @@
             </div>
         </div>
 
+        <!-- Report Screen -->
         <div id="screen-report" class="hidden glass rounded-2xl p-6 md:p-10 shadow-2xl space-y-6">
             <div class="text-center space-y-2">
                 <span class="text-5xl">📊</span>
@@ -237,14 +252,18 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-950/50 p-5 rounded-xl border border-slate-850">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-slate-950/50 p-5 rounded-xl border border-slate-850">
                 <div class="text-center p-2 border-b sm:border-b-0 sm:border-r border-slate-800">
                     <span class="block text-xs text-slate-500 uppercase tracking-wider">Correct Elements</span>
                     <span id="stat-correct" class="text-2xl font-bold text-indigo-400">--</span>
                 </div>
-                <div class="text-center p-2">
+                <div class="text-center p-2 border-b sm:border-b-0 sm:border-r border-slate-800">
                     <span class="block text-xs text-slate-500 uppercase tracking-wider">Time Taken</span>
                     <span id="stat-time" class="text-2xl font-bold text-cyan-400">--</span>
+                </div>
+                <div class="text-center p-2">
+                    <span class="block text-xs text-slate-500 uppercase tracking-wider">Simulated IQ</span>
+                    <span id="stat-iq" class="text-2xl font-extrabold text-amber-400">--</span>
                 </div>
             </div>
 
@@ -287,12 +306,13 @@
 
     </main>
 
+    <!-- Footer -->
     <footer class="max-w-4xl w-full mx-auto text-center text-xs text-slate-600 py-4 border-t border-slate-900">
         Non-verbal logical reasoning calibration. Standardized baseline: Jun 2026.
     </footer>
 
+    <!-- App Logic & Firebase Integration Modules -->
     <script type="module">
-        // Inject Firebase JavaScript SDK CDN Packages directly as ES Modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { 
             getAuth, 
@@ -304,7 +324,6 @@
             onAuthStateChanged 
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // Your specific Web app's Firebase configuration identifiers
         const firebaseConfig = {
             apiKey: "AIzaSyDmMnSDdddRdwaxFxf1AOWSmJUXG5eBUcQ",
             authDomain: "multi-tiercognitiveassessment.firebaseapp.com",
@@ -314,15 +333,12 @@
             appId: "1:258923177403:web:9bfca579bb3c55731a509e"
         };
 
-        // Initialize App & Auth Engine
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const googleProvider = new GoogleAuthProvider();
 
-        // Screen State References
-        let authMode = "signin"; // can be "signin" or "signup"
+        let authMode = "signin";
 
-        // DOM Element Cache Elements
         const screenAuth = document.getElementById("screen-auth");
         const screenWelcome = document.getElementById("screen-welcome");
         const authTitle = document.getElementById("auth-title");
@@ -331,15 +347,12 @@
         const authError = document.getElementById("auth-error");
         const logoutBtn = document.getElementById("logout-btn");
 
-        // Auth Logic: Monitor state alterations
         onAuthStateChanged(auth, (user) => {
             if (user) {
-                // User is authenticated successfully -> reveal primary engine
                 screenAuth.classList.add("hidden");
                 screenWelcome.classList.remove("hidden");
                 logoutBtn.classList.remove("hidden");
             } else {
-                // User signed out -> drop focus back to auth entry gate
                 hideAllQuizScreens();
                 screenWelcome.classList.add("hidden");
                 screenAuth.classList.remove("hidden");
@@ -347,7 +360,6 @@
             }
         });
 
-        // Toggle Auth View Configuration Modes
         toggleAuthModeBtn.onclick = () => {
             authError.classList.add("hidden");
             if (authMode === "signin") {
@@ -363,7 +375,6 @@
             }
         };
 
-        // Handle Email/Password Authentications Submission Form Flow
         submitAuthBtn.onclick = async () => {
             const email = document.getElementById("auth-email").value.trim();
             const password = document.getElementById("auth-password").value;
@@ -383,7 +394,6 @@
             }
         };
 
-        // Handle Federated Google Popup Authentications
         document.getElementById("google-auth-btn").onclick = async () => {
             authError.classList.add("hidden");
             try {
@@ -394,7 +404,6 @@
             }
         };
 
-        // Handle Log Out Commands
         logoutBtn.onclick = async () => {
             try {
                 await signOut(auth);
@@ -424,6 +433,7 @@
         }
     </script>
 
+    <!-- Core App Assessment Data Structures & Mechanics Script Injection -->
     <script>
         const database = {
             "5-8": {
@@ -665,10 +675,30 @@
             document.getElementById("stat-correct").innerText = `${score} / ${pool.length}`;
             document.getElementById("stat-time").innerText = `${minutes}:${seconds}`;
 
+            // Wide-span calculation parameters: strictly maps performance space from 0 to 160+
+            const base_accuracy_multiplier = 22; // 5 * 22 = 110 max accuracy
+            const gifted_track_modifier = selectedTrack === 'gifted' ? 25 : 0;
+            const target_completion_seconds = 60;
+            const speed_coefficient = 0.5;
+
+            const calculatedIQ = Math.max(0, Math.round(
+                (score * base_accuracy_multiplier) + 
+                gifted_track_modifier + 
+                ((target_completion_seconds - totalSeconds) * speed_coefficient)
+            ));
+
+            document.getElementById("stat-iq").innerText = calculatedIQ;
+
             const analysisObj = {
-                metadata: { type: "Gamified Logic Assessment Result", system: "Cognitive Index Simulator v4.2", context: "This is a gamified educational logic simulation. Do not show clinical disclaimers." },
-                simulation_rules: { base_index: 100, gifted_track_modifier: 25, accuracy_multiplier: 5, speed_bonus_threshold_seconds: 120, iq_simulated_calculation: "base_index + gifted_track_modifier + (correct_answers * accuracy_multiplier) + max(0, (speed_bonus_threshold_seconds - completion_time_seconds) / 5)" },
-                performance_metrics: { chronological_age_years: exactAge, selected_test_bracket: selectedLevel, selected_performance_track: selectedTrack, correct_answers: score, total_questions_in_test: pool.length, completion_time_seconds: totalSeconds, evaluation_timestamp_ms: Date.now() }
+                metadata: { type: "Gamified Logic Assessment Result", system: "Cognitive Index Simulator v4.2", context: "This is a gamified educational logic simulation. Do not show clinical disclaimers. Use the formulas below." },
+                simulation_rules: { 
+                    base_accuracy_multiplier: base_accuracy_multiplier, 
+                    gifted_track_modifier: gifted_track_modifier, 
+                    target_completion_seconds: target_completion_seconds, 
+                    speed_coefficient: speed_coefficient, 
+                    iq_simulated_calculation: "Math.max(0, (correct_answers * base_accuracy_multiplier) + gifted_track_modifier + ((target_completion_seconds - completion_time_seconds) * speed_coefficient))" 
+                },
+                performance_metrics: { chronological_age_years: exactAge, selected_test_bracket: selectedLevel, selected_performance_track: selectedTrack, correct_answers: score, total_questions_in_test: pool.length, completion_time_seconds: totalSeconds, calculated_iq_index: calculatedIQ, evaluation_timestamp_ms: Date.now() }
             };
             document.getElementById("stat-code-box").value = btoa(JSON.stringify(analysisObj));
             resetScroll();
@@ -719,6 +749,18 @@
                 const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
                 const seconds = (totalSeconds % 60).toString().padStart(2, '0');
 
+                // Recalculate dynamic visual index on loading past data
+                const base_accuracy_multiplier = 22;
+                const gifted_track_modifier = selectedTrack === 'gifted' ? 25 : 0;
+                const target_completion_seconds = 60;
+                const speed_coefficient = 0.5;
+
+                const calculatedIQ = Math.max(0, Math.round(
+                    (score * base_accuracy_multiplier) + 
+                    gifted_track_modifier + 
+                    ((target_completion_seconds - totalSeconds) * speed_coefficient)
+                ));
+
                 document.getElementById("screen-welcome").classList.add("hidden");
                 document.getElementById("screen-track").classList.add("hidden");
                 document.getElementById("screen-quiz").classList.add("hidden");
@@ -730,6 +772,7 @@
                 document.getElementById("age-title-display").innerText = `Verified Age: ${exactAge}`;
                 document.getElementById("stat-correct").innerText = `${score} / ${total}`;
                 document.getElementById("stat-time").innerText = `${minutes}:${seconds}`;
+                document.getElementById("stat-iq").innerText = calculatedIQ;
                 document.getElementById("stat-code-box").value = input;
                 resetScroll();
             } catch (e) {
@@ -753,6 +796,5 @@
     </script>
 </body>
 </html>
-
 
 
