@@ -139,10 +139,10 @@
 
             <!-- Past Key Loader Input -->
             <div class="border-t border-slate-800 pt-6 mt-6 space-y-3">
-                <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">🔑 Have a Performance Code?</h3>
-                <p class="text-xs text-slate-400">Paste your long verification code here to instantly reload your previous results.</p>
+                <h3 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">🔑 Have a Verification Key?</h3>
+                <p class="text-xs text-slate-400">Paste your long Verification Key here to instantly reload your previous results.</p>
                 <div class="flex gap-2">
-                    <input type="text" id="paste-code-input" placeholder="Paste your code here..." class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-cyan-400 focus:outline-none focus:border-cyan-500/50">
+                    <input type="text" id="paste-key-input" placeholder="Paste your key here..." class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm font-mono text-cyan-400 focus:outline-none focus:border-cyan-500/50">
                     <button onclick="loadFromCode()" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-sm font-semibold rounded-xl transition-colors">
                         Load Report
                     </button>
@@ -330,7 +330,7 @@
                 <span class="block text-xs font-semibold text-slate-400 uppercase tracking-wider">Verification Key:</span>
                 <textarea id="stat-code-box" readonly class="w-full h-24 bg-slate-950 border border-slate-850 rounded-xl p-3 text-xs font-mono text-cyan-400 focus:outline-none focus:border-cyan-500/50 resize-none" onclick="this.select()"></textarea>
                 <p class="text-[11px] text-slate-400 leading-relaxed italic">
-                    ⚠️ Make sure to copy this verification key! Keep it saved just in case your history doesn't show your record or if you want to load and review your full results another time.
+                    ⚠️ Make sure to copy this Verification Key! Keep it saved just in case your history doesn't show your record or if you want to load and review your full results another time.
                 </p>
             </div>
 
@@ -423,7 +423,7 @@
                     <h3 class="text-sm font-bold text-cyan-400 uppercase tracking-wider">Manual Key Injector</h3>
                 </div>
                 <p class="text-xs text-slate-400 leading-relaxed">
-                    If an automatic history synchronization fails, paste your raw Base64 verification key here to manually inject and index the run into your local history array.
+                    If an automatic history synchronization fails, paste your raw Base64 Verification Key here to manually inject and index the run into your local history array.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-2.5">
                     <input type="text" id="manual-inject-input" placeholder="Paste your verification key here..." class="flex-grow bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs font-mono text-cyan-400 focus:outline-none focus:border-cyan-500/50">
@@ -1261,10 +1261,34 @@
             setTimeout(() => { toast.classList.add("hidden"); }, 3000);
         }
 
+        // Action Trigger: Manually input and save a Key locally inside history panel
+        window.injectManualKey = function() {
+            const inputField = document.getElementById("manual-inject-input");
+            const inputVal = inputField.value.trim();
+            const errorDiv = document.getElementById("manual-inject-error");
+            const successDiv = document.getElementById("manual-inject-success");
+
+            errorDiv.classList.add("hidden");
+            successDiv.classList.add("hidden");
+
+            if (!inputVal) return;
+
+            const success = window.injectKeyIntoLocalHistory(inputVal);
+            if (success) {
+                successDiv.classList.remove("hidden");
+                inputField.value = "";
+                setTimeout(() => successDiv.classList.add("hidden"), 3000);
+                window.showHistoryScreen(); // Refresh run view index
+            } else {
+                errorDiv.innerText = "Error: Invalid or corrupted Verification Key structure 😭";
+                errorDiv.classList.remove("hidden");
+            }
+        }
+
         window.loadFromCode = function() {
             const errDiv = document.getElementById("decode-error");
             errDiv.classList.add("hidden");
-            const input = document.getElementById("paste-code-input").value.trim();
+            const input = document.getElementById("paste-key-input").value.trim();
             if (!input) return;
 
             try {
@@ -1330,7 +1354,7 @@
                 document.getElementById("cognitive-weakness").innerHTML = `You took slightly longer or had lower accuracy in **${profile.weaknesses}**.`;
                 resetScroll();
             } catch (e) {
-                errDiv.innerText = "Error: Invalid or corrupted code structure.";
+                errDiv.innerText = "Error: Invalid or corrupted Verification Key structure.";
                 errDiv.classList.remove("hidden");
             }
         }
@@ -1437,30 +1461,6 @@
             resetScroll();
         }
 
-        // Action Trigger: Manually input and save a Key locally inside history panel
-        window.injectManualKey = function() {
-            const inputField = document.getElementById("manual-inject-input");
-            const inputVal = inputField.value.trim();
-            const errorDiv = document.getElementById("manual-inject-error");
-            const successDiv = document.getElementById("manual-inject-success");
-
-            errorDiv.classList.add("hidden");
-            successDiv.classList.add("hidden");
-
-            if (!inputVal) return;
-
-            const success = window.injectKeyIntoLocalHistory(inputVal);
-            if (success) {
-                successDiv.classList.remove("hidden");
-                inputField.value = "";
-                setTimeout(() => successDiv.classList.add("hidden"), 3000);
-                window.showHistoryScreen(); // Refresh run view index
-            } else {
-                errorDiv.innerText = "Error: Invalid or corrupted verification key structure 😭";
-                errorDiv.classList.remove("hidden");
-            }
-        }
-
         window.copyHistoricalBypass = function(base64Prompt) {
             const rawPrompt = atob(base64Prompt);
             copyToClipboard(rawPrompt);
@@ -1489,10 +1489,10 @@
             window.latestGeneratedKey = null; // Clear active run cache reference
             document.getElementById("screen-report").classList.add("hidden");
             document.getElementById("screen-welcome").classList.remove("hidden");
-            document.getElementById("paste-code-input").value = "";
+            document.getElementById("paste-key-input").value = "";
             document.getElementById("decode-error").classList.add("hidden");
             resetScroll();
         }
     </script>
 </body>
-    </html>
+            </html>
